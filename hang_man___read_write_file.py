@@ -1,3 +1,4 @@
+import json
 from hang_man_shapes import hang_man
 import random as r
 
@@ -40,23 +41,17 @@ while again == "y" or again == "yes":
             else:
                 x = input("Kindly Enter A Valid Choice: ")
         if x == "1":
-            with open("easy.txt", "r") as easy:
-                Easy = []
-                for line in easy:
-                    Easy.append(line[0:len(line)-1])
-            List = Easy
+            with open("data.json") as jsonFile:
+                List = json.load(jsonFile)["easy"]
+                jsonFile.close()
         if x == "2":
-            with open("medium.txt", "r") as medium:
-                Medium = []
-                for line in medium:
-                    Medium.append(line[0:len(line)-1])
-            List = Medium
+            with open("data.json") as jsonFile:
+                List = json.load(jsonFile)["medium"]
+                jsonFile.close()
         if x == "3":
-            with open("hard.txt", "r") as hard:
-                Hard = []
-                for line in hard:
-                    Hard.append(line[0:len(line)-1])
-            List = Hard
+            with open("data.json") as jsonFile:
+                List = json.load(jsonFile)["hard"]
+                jsonFile.close()
         random_word = r.choice(List)
         random_list = list(random_word)
         valid = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L",
@@ -114,40 +109,38 @@ while again == "y" or again == "yes":
             "Press 'y' or 'yes' to play again or any other key to end:").lower()
     print("Dear ", name, " you Played:", play, " times and win:",
           win, " time and your score is:", score)
-    player_list = []
-    with open("player.txt", "a") as player:
-        player.write(name)
-        player.write("\n")
-    with open("player.txt", "r") as player:
-        for line in player:
-            player_list.append(line[0:len(line)-1])
-    player_score_list = []
-    with open("player_score.txt", "a") as player_score:
-        player_score.write(str(score))
-        player_score.write("\n")
-    with open("player_score.txt", "r") as player_score:
-        for line in player_score:
-            player_score_list.append(line[0:len(line)-1])
-    for i in range(len(player_list)):
-        for j in range(len(player_list)-1):
-            if player_score_list[j] < player_score_list[j+1]:
-                player_score_list[j], player_score_list[j +
-                                                        1] = player_score_list[j+1], player_score_list[j]
-                player_list[j], player_list[j +
-                                            1] = player_list[j+1], player_list[j]
-    print("\nLIST OF HIGH SCORE :\n")
+
+    # get data file
+    with open("data.json") as jsonFile:
+        data = json.load(jsonFile)
+        jsonFile.close()
+
+    # add data new
+    data["record"].append({
+        "name": name,
+        "score": score
+    })
+
+    # save data new
+    with open("data.json", "w+") as jsonFile:
+        json.dump(data, jsonFile, indent=4)
+        jsonFile.close()
+
+    record = sorted(data["record"], key=lambda i: i["score"], reverse=True)
+
+    print("\nLIST OF HIGH SCORES :\n")
     print("Player", end="")
     space(len("player"))
     print("|", "Score")
     print("------------------------------------")  # 36
-    if len(player_list) >= 3:
+    if len(record) >= 3:
         for k in range(0, 3):
-            print(player_list[k], end="")
-            space(len(player_list[k]))
-            print("|", player_score_list[k])
+            print(record[k]["name"], end="")
+            space(len(record[k]["name"]))
+            print("|", record[k]["score"])
     else:
-        for k in range(len(player_list)):
-            print(player_list[k], end="")
-            space(len(player_list[k]))
-            print("|", player_score_list[k])
+        for k in range(len(record)):
+            print(record[k]["name"], end="")
+            space(len(record[k]["name"]))
+            print("|", record[k]["score"])
     again = yes_no_check(input("\nDo you want to Run the code again: "))

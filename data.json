@@ -1,0 +1,40 @@
+{
+    "easy": [
+        "LAHORE",
+        "KARACHI",
+        "ISLAMABAD",
+        "QUETTA",
+        "RAWALPINDI",
+        "PESHAWAR",
+        "FAISALABAD",
+        "MULTAN",
+        "SARGODHA",
+        "SIALKOT"
+    ],
+    "medium": [
+        "PAKISTAN",
+        "INDIA",
+        "WEST INDIES",
+        "AUSTRALIA",
+        "ENGLAND",
+        "NEW ZELAND",
+        "SRI LANKA",
+        "AFGHANIATAN",
+        "SOUTH AFRICA",
+        "BANGLADESH"
+    ],
+    "hard": [
+        "NEW YORK",
+        "BANGKOK",
+        "LONDON",
+        "PARIS",
+        "SINGAPORE",
+        "KUALA LUMPUR",
+        "TOKYO",
+        "BARCELONA",
+        "HONG KONG",
+        "ISTANBUL"
+    ],
+    "record": [
+    ]
+}
